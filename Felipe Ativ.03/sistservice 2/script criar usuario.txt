@@ -1,0 +1,10 @@
+CREATE TABLE usuarios (
+  id SERIAL NOT NULL,
+  nome VARCHAR(100) NOT NULL,
+  usuario VARCHAR(100) NOT NULL,
+  senha VARCHAR(100) NOT NULL,
+  situacao VARCHAR(1) NOT NULL
+);
+
+INSERT INTO usuario values (default, 'Flavio', 'flavio@email.com', md5('123456'), 'a');
+insert into usuario values (default, 'Felipe Busch', 'felipe@email.com', md5('654321'), 'a');
