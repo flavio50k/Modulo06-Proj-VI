@@ -4,7 +4,7 @@ package sistservice;
 import apoio.ConexaoBD;
 import java.sql.*;
 import javax.swing.JOptionPane;
-import tela.FrmPrincipal;
+import tela.DlgLogin;
 
 public class SistService {
 
@@ -15,7 +15,7 @@ public class SistService {
 
     public static void main(String[] args) {
         if (ConexaoBD.getInstance().getConnection() != null) {
-            new FrmPrincipal().setVisible(true);
+            new DlgLogin(null, true).setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Erro ao conectar no Banco de Dados!");
         }

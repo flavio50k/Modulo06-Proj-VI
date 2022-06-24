@@ -2,9 +2,16 @@
 package tela;
 
 import apoio.Formatacao;
+import apoio.Validacao;
+import dao.FornecedoresDAO;
+import entidade.Fornecedores;
+import java.awt.Color;
+import javax.swing.JOptionPane;
 
 public class IfrFornecedores extends javax.swing.JInternalFrame {
 
+    int varID = 0;
+    
     public IfrFornecedores() {
         initComponents();
 
@@ -78,6 +85,12 @@ public class IfrFornecedores extends javax.swing.JInternalFrame {
         jLabel2.setText("E-mail:");
 
         jLabel4.setText("CNPJ:");
+
+        tffCadCnpj.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tffCadCnpjFocusLost(evt);
+            }
+        });
 
         jLabel5.setText("Telefone:");
 
@@ -268,8 +281,18 @@ public class IfrFornecedores extends javax.swing.JInternalFrame {
         jTabbedPane1.addTab("Consulta", abaConsulta);
 
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -311,11 +334,23 @@ public class IfrFornecedores extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-        // new ClientesDAO().popularTabela(tblClientesCons, tfdClientesConsConsultar.getText());
+        new FornecedoresDAO().popularTabela(tblConsulta, tfdConsultar.getText());
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        // TODO add your handling code here:
+        if (tblConsulta.getSelectedRow() < 0) {
+            JOptionPane.showMessageDialog(this, "Selecione um Registro na Tabela Consulta!");
+        } else {
+            String idTabela = String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0));
+            varID = Integer.parseInt(idTabela);
+            if (new FornecedoresDAO().excluir(varID) == null) {
+                JOptionPane.showMessageDialog(this, "Registro Excluído com Sucesso!");
+                new FornecedoresDAO().popularTabela(tblConsulta, tfdConsultar.getText());
+            } else {
+                JOptionPane.showMessageDialog(this, "Problema ao excluir o Registro!");
+            }
+            varID = 0;
+        }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void cbxCadStatusItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxCadStatusItemStateChanged
@@ -328,6 +363,126 @@ public class IfrFornecedores extends javax.swing.JInternalFrame {
             evt.consume();
         }
     }//GEN-LAST:event_tfdCadNumeroKeyTyped
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        if (tfdCadNome.getText().length() > 0
+                && tfdCadEmail.getText().length() > 0
+                && tfdCadEndereco.getText().length() > 0
+                && tfdCadNumero.getText().length() > 0
+                && tfdCadBairro.getText().length() > 0
+                && tfdCadCidade.getText().length() > 0
+                && tffCadCep.getText().length() > 0
+                && tffCadTelefone.getText().length() > 0) {
+
+            Fornecedores fornecedor = new Fornecedores();
+
+            fornecedor.setId(varID);
+            fornecedor.setNome(tfdCadNome.getText());
+            fornecedor.setEmail(tfdCadEmail.getText());
+            fornecedor.setEndereco(tfdCadEndereco.getText());
+            fornecedor.setNumero(tfdCadNumero.getText());
+            fornecedor.setComplemento(tfdCadComplemento.getText());
+            fornecedor.setBairro(tfdCadBairro.getText());
+            fornecedor.setCidade(tfdCadCidade.getText());
+            fornecedor.setCep(tffCadCep.getText());
+            fornecedor.setTelefone(tffCadTelefone.getText());
+            if (String.valueOf(tffCadCnpj.getText().substring(0, 1)).equals(" ")) {
+                fornecedor.setCnpj(null);
+            } else {
+                fornecedor.setCnpj(tffCadCnpj.getText());
+            }
+            if (String.valueOf(cbxCadStatus.getSelectedItem()).equals("Ativo")) {
+                fornecedor.setStatus("a");
+            } else {
+                fornecedor.setStatus("i");
+            }
+
+            FornecedoresDAO fornecedorDAO = new FornecedoresDAO();
+            if (varID == 0) {
+                if (fornecedorDAO.salvar(fornecedor) == null) {
+                    tfdCadNome.setText("");
+                    tfdCadEmail.setText("");
+                    tfdCadEndereco.setText("");
+                    tfdCadNumero.setText("");
+                    tfdCadComplemento.setText("");
+                    tfdCadBairro.setText("");
+                    tfdCadCidade.setText("");
+                    tffCadCep.setText("");
+                    tffCadCnpj.setText("");
+                    tffCadTelefone.setText("");
+                    cbxCadStatus.setSelectedItem("Ativo");
+
+                    JOptionPane.showMessageDialog(this, "Registro salvo com sucesso!");
+                    tfdCadNome.requestFocus();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Problemas ao salvar registro!");
+                }
+            } else {
+                if (fornecedorDAO.atualizar(fornecedor) == null) {
+                    tfdCadNome.setText("");
+                    tfdCadEmail.setText("");
+                    tfdCadEndereco.setText("");
+                    tfdCadNumero.setText("");
+                    tfdCadComplemento.setText("");
+                    tfdCadBairro.setText("");
+                    tfdCadCidade.setText("");
+                    tffCadCep.setText("");
+                    tffCadCnpj.setText("");
+                    tffCadTelefone.setText("");
+                    cbxCadStatus.setSelectedItem("Ativo");
+
+                    JOptionPane.showMessageDialog(this, "Registro alterado com sucesso!");
+                    tfdCadNome.requestFocus();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Problemas ao alterar registro!");
+                }
+            }
+            varID = 0;
+        } else {
+            JOptionPane.showMessageDialog(this, "Favor preencher todos os campos!");
+            tfdCadNome.requestFocus();
+        }
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        if (tblConsulta.getSelectedRow() < 0) {
+            JOptionPane.showMessageDialog(this, "Selecione um Registro na Tabela Consulta!");
+        } else {
+            String idTabela = String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0));
+            varID = Integer.parseInt(idTabela);
+
+            Fornecedores fornecedor = new FornecedoresDAO().consultarId(varID);
+            if (fornecedor != null) {
+                jTabbedPane1.setSelectedIndex(0);
+                tfdCadNome.setText(fornecedor.getNome());
+                tfdCadEmail.setText(fornecedor.getEmail());
+                tfdCadEndereco.setText(fornecedor.getEndereco());
+                tfdCadNumero.setText(fornecedor.getNumero());
+                tfdCadComplemento.setText(fornecedor.getComplemento());
+                tfdCadBairro.setText(fornecedor.getBairro());
+                tfdCadCidade.setText(fornecedor.getCidade());
+                tffCadCep.setText(fornecedor.getCep());
+                tffCadCnpj.setText(fornecedor.getCnpj());
+                tffCadTelefone.setText(fornecedor.getTelefone());
+                if (fornecedor.getStatus().equals("a")) {
+                    cbxCadStatus.setSelectedItem("Ativo");
+                } else {
+                    cbxCadStatus.setSelectedItem("Inativo");
+                }
+                tfdCadNome.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(this, "Código do fornecedor não encontrado!");
+            }
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void tffCadCnpjFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tffCadCnpjFocusLost
+        if (!Validacao.validarCNPJ(Formatacao.removerFormatacao(tffCadCnpj.getText()))) {
+            tffCadCnpj.setBackground(Color.YELLOW);
+        } else {
+            tffCadCnpj.setBackground(Color.WHITE);
+        }
+    }//GEN-LAST:event_tffCadCnpjFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

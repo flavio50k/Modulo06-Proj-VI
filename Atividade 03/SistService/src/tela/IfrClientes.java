@@ -2,8 +2,15 @@
 package tela;
 
 import apoio.Formatacao;
+import apoio.Validacao;
+import dao.ClientesDAO;
+import entidade.Clientes;
+import java.awt.Color;
+import javax.swing.JOptionPane;
 
 public class IfrClientes extends javax.swing.JInternalFrame {
+
+    int varID = 0;
 
     public IfrClientes() {
         initComponents();
@@ -28,33 +35,33 @@ public class IfrClientes extends javax.swing.JInternalFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         abaCadastro = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        tfdCadNome = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        tfdCadEmail = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        tffCadCpf = new javax.swing.JFormattedTextField();
         jLabel4 = new javax.swing.JLabel();
-        tffCadCnpj = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
-        tffCadTelefone = new javax.swing.JFormattedTextField();
         jLabel6 = new javax.swing.JLabel();
-        cbxCadStatus = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        tfdCadEndereco = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        tfdCadComplemento = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        tfdCadBairro = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        tfdCadCidade = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        tffCadCep = new javax.swing.JFormattedTextField();
+        tfdCadNome = new javax.swing.JTextField();
+        tfdCadEmail = new javax.swing.JTextField();
+        tfdCadEndereco = new javax.swing.JTextField();
         tfdCadNumero = new javax.swing.JTextField();
+        tffCadCpf = new javax.swing.JFormattedTextField();
+        tffCadCnpj = new javax.swing.JFormattedTextField();
+        tffCadTelefone = new javax.swing.JFormattedTextField();
+        cbxCadStatus = new javax.swing.JComboBox<>();
+        tfdCadComplemento = new javax.swing.JTextField();
+        tfdCadBairro = new javax.swing.JTextField();
+        tfdCadCidade = new javax.swing.JTextField();
+        tffCadCep = new javax.swing.JFormattedTextField();
         abaConsulta = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
         tfdConsultar = new javax.swing.JTextField();
         btnConsultar = new javax.swing.JButton();
-        jLabel13 = new javax.swing.JLabel();
         spnConsulta = new javax.swing.JScrollPane();
         tblConsulta = new javax.swing.JTable();
         btnSalvar = new javax.swing.JButton();
@@ -86,14 +93,7 @@ public class IfrClientes extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Telefone:");
 
-        jLabel6.setText("Stautus:");
-
-        cbxCadStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ativo", "Inativo" }));
-        cbxCadStatus.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbxCadStatusItemStateChanged(evt);
-            }
-        });
+        jLabel6.setText("Status");
 
         jLabel7.setText("Endereço:");
 
@@ -111,6 +111,25 @@ public class IfrClientes extends javax.swing.JInternalFrame {
         tfdCadNumero.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 tfdCadNumeroKeyTyped(evt);
+            }
+        });
+
+        tffCadCpf.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tffCadCpfFocusLost(evt);
+            }
+        });
+
+        tffCadCnpj.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tffCadCnpjFocusLost(evt);
+            }
+        });
+
+        cbxCadStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ativo", "Inativo" }));
+        cbxCadStatus.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxCadStatusItemStateChanged(evt);
             }
         });
 
@@ -152,7 +171,7 @@ public class IfrClientes extends javax.swing.JInternalFrame {
                                 .addGroup(abaCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(abaCadastroLayout.createSequentialGroup()
                                         .addComponent(tffCadTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                                         .addComponent(jLabel6)
                                         .addGap(18, 18, 18)
                                         .addComponent(cbxCadStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -221,14 +240,14 @@ public class IfrClientes extends javax.swing.JInternalFrame {
 
         jTabbedPane1.addTab("Cadastro", abaCadastro);
 
+        jLabel13.setText("Busca");
+
         btnConsultar.setText("Consultar");
         btnConsultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConsultarActionPerformed(evt);
             }
         });
-
-        jLabel13.setText("Busca");
 
         tblConsulta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -280,8 +299,18 @@ public class IfrClientes extends javax.swing.JInternalFrame {
         jTabbedPane1.addTab("Consulta", abaConsulta);
 
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -323,11 +352,23 @@ public class IfrClientes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-        // new ClientesDAO().popularTabela(tblClientesCons, tfdClientesConsConsultar.getText());
+        new ClientesDAO().popularTabela(tblConsulta, tfdConsultar.getText());
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        // TODO add your handling code here:
+        if (tblConsulta.getSelectedRow() < 0) {
+            JOptionPane.showMessageDialog(this, "Selecione um Registro na Tabela Consulta!");
+        } else {
+            String idTabela = String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0));
+            varID = Integer.parseInt(idTabela);
+            if (new ClientesDAO().excluir(varID) == null) {
+                JOptionPane.showMessageDialog(this, "Registro Excluído com Sucesso!");
+                new ClientesDAO().popularTabela(tblConsulta, tfdConsultar.getText());
+            } else {
+                JOptionPane.showMessageDialog(this, "Problema ao excluir o Registro!");
+            }
+            varID = 0;
+        }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void cbxCadStatusItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxCadStatusItemStateChanged
@@ -340,6 +381,142 @@ public class IfrClientes extends javax.swing.JInternalFrame {
             evt.consume();
         }
     }//GEN-LAST:event_tfdCadNumeroKeyTyped
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        if (tfdCadNome.getText().length() > 0
+                && tfdCadEmail.getText().length() > 0
+                && tfdCadEndereco.getText().length() > 0
+                && tfdCadNumero.getText().length() > 0
+                && tfdCadBairro.getText().length() > 0
+                && tfdCadCidade.getText().length() > 0
+                && tffCadCep.getText().length() > 0
+                && tffCadTelefone.getText().length() > 0) {
+
+            Clientes cliente = new Clientes();
+
+            cliente.setId(varID);
+            cliente.setNome(tfdCadNome.getText());
+            cliente.setEmail(tfdCadEmail.getText());
+            cliente.setEndereco(tfdCadEndereco.getText());
+            cliente.setNumero(tfdCadNumero.getText());
+            cliente.setComplemento(tfdCadComplemento.getText());
+            cliente.setBairro(tfdCadBairro.getText());
+            cliente.setCidade(tfdCadCidade.getText());
+            cliente.setCep(tffCadCep.getText());
+            cliente.setTelefone(tffCadTelefone.getText());
+            if (String.valueOf(tffCadCpf.getText().substring(0, 1)).equals(" ")) {
+                cliente.setCpf(null);
+            } else {
+                cliente.setCpf(tffCadCpf.getText());
+            }
+            if (String.valueOf(tffCadCnpj.getText().substring(0, 1)).equals(" ")) {
+                cliente.setCnpj(null);
+            } else {
+                cliente.setCnpj(tffCadCnpj.getText());
+            }
+            if (String.valueOf(cbxCadStatus.getSelectedItem()).equals("Ativo")) {
+                cliente.setStatus("a");
+            } else {
+                cliente.setStatus("i");
+            }
+
+            ClientesDAO clienteDAO = new ClientesDAO();
+            if (varID == 0) {
+                if (clienteDAO.salvar(cliente) == null) {
+                    tfdCadNome.setText("");
+                    tfdCadEmail.setText("");
+                    tfdCadEndereco.setText("");
+                    tfdCadNumero.setText("");
+                    tfdCadComplemento.setText("");
+                    tfdCadBairro.setText("");
+                    tfdCadCidade.setText("");
+                    tffCadCep.setText("");
+                    tffCadCpf.setText("");
+                    tffCadCnpj.setText("");
+                    tffCadTelefone.setText("");
+                    cbxCadStatus.setSelectedItem("Ativo");
+
+                    JOptionPane.showMessageDialog(this, "Registro salvo com sucesso!");
+                    tfdCadNome.requestFocus();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Problemas ao salvar registro!");
+                }
+            } else {
+                if (clienteDAO.atualizar(cliente) == null) {
+                    tfdCadNome.setText("");
+                    tfdCadEmail.setText("");
+                    tfdCadEndereco.setText("");
+                    tfdCadNumero.setText("");
+                    tfdCadComplemento.setText("");
+                    tfdCadBairro.setText("");
+                    tfdCadCidade.setText("");
+                    tffCadCep.setText("");
+                    tffCadCpf.setText("");
+                    tffCadCnpj.setText("");
+                    tffCadTelefone.setText("");
+                    cbxCadStatus.setSelectedItem("Ativo");
+
+                    JOptionPane.showMessageDialog(this, "Registro alterado com sucesso!");
+                    tfdCadNome.requestFocus();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Problemas ao alterar registro!");
+                }
+            }
+            varID = 0;
+        } else {
+            JOptionPane.showMessageDialog(this, "Favor preencher todos os campos!");
+            tfdCadNome.requestFocus();
+        }
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        if (tblConsulta.getSelectedRow() < 0) {
+            JOptionPane.showMessageDialog(this, "Selecione um Registro na Tabela Consulta!");
+        } else {
+            String idTabela = String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0));
+            varID = Integer.parseInt(idTabela);
+
+            Clientes cliente = new ClientesDAO().consultarId(varID);
+            if (cliente != null) {
+                jTabbedPane1.setSelectedIndex(0);
+                tfdCadNome.setText(cliente.getNome());
+                tfdCadEmail.setText(cliente.getEmail());
+                tfdCadEndereco.setText(cliente.getEndereco());
+                tfdCadNumero.setText(cliente.getNumero());
+                tfdCadComplemento.setText(cliente.getComplemento());
+                tfdCadBairro.setText(cliente.getBairro());
+                tfdCadCidade.setText(cliente.getCidade());
+                tffCadCep.setText(cliente.getCep());
+                tffCadCpf.setText(cliente.getCpf());
+                tffCadCnpj.setText(cliente.getCnpj());
+                tffCadTelefone.setText(cliente.getTelefone());
+                if (cliente.getStatus().equals("a")) {
+                    cbxCadStatus.setSelectedItem("Ativo");
+                } else {
+                    cbxCadStatus.setSelectedItem("Inativo");
+                }
+                tfdCadNome.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(this, "Código do cliente não encontrado!");
+            }
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void tffCadCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tffCadCpfFocusLost
+        if (!Validacao.validarCPF(Formatacao.removerFormatacao(tffCadCpf.getText()))) {
+            tffCadCpf.setBackground(Color.YELLOW);
+        } else {
+            tffCadCpf.setBackground(Color.WHITE);
+        }
+    }//GEN-LAST:event_tffCadCpfFocusLost
+
+    private void tffCadCnpjFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tffCadCnpjFocusLost
+        if (!Validacao.validarCNPJ(Formatacao.removerFormatacao(tffCadCnpj.getText()))) {
+            tffCadCnpj.setBackground(Color.YELLOW);
+        } else {
+            tffCadCnpj.setBackground(Color.WHITE);
+        }
+    }//GEN-LAST:event_tffCadCnpjFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

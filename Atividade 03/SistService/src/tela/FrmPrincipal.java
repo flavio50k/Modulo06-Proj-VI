@@ -25,6 +25,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         cadFornecedores = new javax.swing.JMenuItem();
         cadServicos = new javax.swing.JMenuItem();
         cadMateriais = new javax.swing.JMenuItem();
+        cadUsuarios = new javax.swing.JMenuItem();
         menuCompras = new javax.swing.JMenu();
         comprasCompras = new javax.swing.JMenuItem();
         menuOrcamentos = new javax.swing.JMenu();
@@ -78,6 +79,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
         menuCadastros.add(cadMateriais);
+
+        cadUsuarios.setText("Usuários");
+        cadUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cadUsuariosActionPerformed(evt);
+            }
+        });
+        menuCadastros.add(cadUsuarios);
 
         jMenuBar1.add(menuCadastros);
 
@@ -150,15 +159,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_cadFornecedoresActionPerformed
 
     private void cadServicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadServicosActionPerformed
-        IfrServicos ifrServicos = new IfrServicos();
-        jDesktopPane1.add(ifrServicos);
-        ifrServicos.setVisible(true);
+        // TODO add your handling code here:
     }//GEN-LAST:event_cadServicosActionPerformed
 
     private void cadMateriaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadMateriaisActionPerformed
-        IfrMateriais ifrMateriais = new IfrMateriais();
-        jDesktopPane1.add(ifrMateriais);
-        ifrMateriais.setVisible(true);
+        // TODO add your handling code here:
     }//GEN-LAST:event_cadMateriaisActionPerformed
 
     private void comprasComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comprasComprasActionPerformed
@@ -168,6 +173,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void orcamOrcamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orcamOrcamentosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_orcamOrcamentosActionPerformed
+
+    private void cadUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadUsuariosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cadUsuariosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -210,6 +219,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem cadFornecedores;
     private javax.swing.JMenuItem cadMateriais;
     private javax.swing.JMenuItem cadServicos;
+    private javax.swing.JMenuItem cadUsuarios;
     private javax.swing.JMenuItem comprasCompras;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenuBar jMenuBar1;

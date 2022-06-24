@@ -7,14 +7,14 @@ public class Fornecedores {
     private String nome;
     private String email;
     private String endereco;
-    private int numero;
+    private String numero;
     private String complemento;
     private String bairro;
     private String cidade;
     private String cep;
     private String cnpj;
     private String telefone;
-    private boolean status;
+    private String status;
 
     public int getId() {
         return id;
@@ -48,11 +48,11 @@ public class Fornecedores {
         this.endereco = endereco;
     }
 
-    public int getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 
@@ -104,11 +104,11 @@ public class Fornecedores {
         this.telefone = telefone;
     }
 
-    public boolean isStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 }
