@@ -175,14 +175,12 @@ public class DlgLogin extends javax.swing.JDialog {
 
             if (new UsuariosDAO().autenticar(u)) {
                 new FrmPrincipal().setVisible(true);
-
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Usuário ou senha incorretos!");
             }
         } else {
             JOptionPane.showMessageDialog(this, "Preencha usuário e senha adequadamente.");
-
             tfdEmailUsuario.requestFocus();
         }
     }//GEN-LAST:event_btnAcessarActionPerformed
